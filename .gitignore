@@ -28,6 +28,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .venv/
+.vscode
 
 # Terraform (Estado, Plugins e Variáveis Secretas)
 **/.terraform/*
@@ -39,3 +40,4 @@ __pycache__/
 # Ignorar Golden Config e arquivos sensíveis do pfSense
 pfsense-autodeploy/conf
 config.xml
+
