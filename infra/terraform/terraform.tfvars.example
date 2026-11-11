@@ -1,0 +1,24 @@
+# Exemplo de variáveis para provisionamento no Proxmox VE
+# Copie este arquivo para terraform.tfvars e preencha com os valores reais:
+#   cp terraform.tfvars.example terraform.tfvars
+
+proxmox_endpoint    = "https://proxmox.exemplo.local:8006/"
+proxmox_api_token   = "terraform@pam!terraform=00000000-0000-0000-0000-000000000000"
+proxmox_insecure    = false
+node_name           = "pve"
+proxmox_ssh_address = "192.168.0.100"
+
+image_storage   = "local"
+vm_storage      = "local-lvm"
+snippet_storage = "local"
+
+# Gere o hash SHA-512 da senha do usuário Linux com:
+#   openssl passwd -6
+user_password_hash = "$6$salt_exemplo$hash_sha512_gerado_pelo_openssl_passwd_6"
+
+# true durante a preparação (habilita net1 em vmbr0 via DHCP);
+# mudar para false após instalar e atualizar os sistemas para isolar na vmbr3.
+temporary_internet_interface = true
+
+ssh_public_key_path  = "~/.ssh/id_ed25519.pub"
+ssh_private_key_path = "~/.ssh/id_ed25519"

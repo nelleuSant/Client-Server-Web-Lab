@@ -1,0 +1,39 @@
+#cloud-config
+
+hostname: client01
+manage_etc_hosts: true
+
+timezone: America/Sao_Paulo
+
+users:
+  - default
+  - name: sue
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    lock_passwd: false
+    passwd: '${user_password_hash}'
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - qemu-guest-agent
+  - locales
+  - curl
+  - wget
+  - net-tools
+
+runcmd:
+  - 'systemctl start qemu-guest-agent || true'
+  - 'sed -i "s/^# *\(pt_BR.UTF-8\)/\1/" /etc/locale.gen && locale-gen && update-locale LANG=pt_BR.UTF-8'
+  - 'DEBIAN_FRONTEND=noninteractive apt-get update'
+  - 'DEBIAN_FRONTEND=noninteractive apt-get install -y xfce4 xfce4-goodies lightdm firefox-esr'
+  - 'systemctl set-default graphical.target'
+  - 'systemctl enable lightdm'
+  - 'systemctl start lightdm'
+
+final_message: "Client01 configurado com sucesso."
+

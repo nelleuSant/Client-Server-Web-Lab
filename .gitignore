@@ -1,0 +1,41 @@
+# Discos Virtuais e ISOs (NUNCA subir para o GitHub)
+*.qcow2
+*.img
+*.iso
+*.vmdk
+*.vdi
+*.ova
+*.ovf
+
+# Logs e Caches de Automação (Packer / Ansible)
+packer_cache/
+crash.log
+*.retry
+.ansible/
+
+# Arquivos de Senhas e Chaves (Segurança)
+.env
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+secret.txt
+
+# Arquivos temporários do Sistema Operacional e Python
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+
+# Terraform (Estado, Plugins e Variáveis Secretas)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Ignorar Golden Config e arquivos sensíveis do pfSense
+pfsense-autodeploy/conf
+config.xml

@@ -1,0 +1,49 @@
+#cloud-config
+
+hostname: server01
+manage_etc_hosts: true
+
+timezone: America/Sao_Paulo
+
+users:
+  - default
+  - name: sue
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    lock_passwd: false
+    passwd: '${user_password_hash}'
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - qemu-guest-agent
+  - locales
+  - curl
+  - wget
+  - git
+  - vim
+  - ca-certificates
+  - gnupg
+
+runcmd:
+  - 'systemctl start qemu-guest-agent || true'
+  - 'sed -i "s/^# *\(pt_BR.UTF-8\)/\1/" /etc/locale.gen && locale-gen && update-locale LANG=pt_BR.UTF-8'
+  - 'mkdir -p /etc/apt/keyrings'
+  - 'curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc'
+  - 'chmod a+r /etc/apt/keyrings/docker.asc'
+  - 'echo "Types: deb" > /etc/apt/sources.list.d/docker.sources'
+  - 'echo "URIs: https://download.docker.com/linux/debian" >> /etc/apt/sources.list.d/docker.sources'
+  - 'echo "Suites: trixie" >> /etc/apt/sources.list.d/docker.sources'
+  - 'echo "Components: stable" >> /etc/apt/sources.list.d/docker.sources'
+  - 'echo "Architectures: amd64" >> /etc/apt/sources.list.d/docker.sources'
+  - 'echo "Signed-By: /etc/apt/keyrings/docker.asc" >> /etc/apt/sources.list.d/docker.sources'
+  - 'DEBIAN_FRONTEND=noninteractive apt-get update'
+  - 'DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin'
+  - 'systemctl enable --now docker'
+
+final_message: "Server01 configurado com sucesso."
+
