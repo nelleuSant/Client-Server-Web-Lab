@@ -73,4 +73,8 @@ resource "proxmox_virtual_environment_vm" "server" {
   }
 
   serial_device {}
+
+  lifecycle {
+    ignore_changes = [disk]
+  }
 }

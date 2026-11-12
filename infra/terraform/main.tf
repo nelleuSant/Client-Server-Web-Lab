@@ -5,4 +5,8 @@ resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
 
   url       = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.qcow2"
   file_name = "debian-13-generic-amd64.img"
+
+  # Evita que atualizações na imagem "latest" do Debian forcem a recriação das VMs.
+  verify    = false
+  overwrite = false
 }

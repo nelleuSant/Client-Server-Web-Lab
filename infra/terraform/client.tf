@@ -23,6 +23,10 @@ resource "proxmox_virtual_environment_vm" "client" {
     dedicated = 2048
   }
 
+  vga { 
+    type = "qxl" 
+  }
+
   disk {
     datastore_id = var.vm_storage
     interface    = "scsi0"
@@ -73,4 +77,8 @@ resource "proxmox_virtual_environment_vm" "client" {
   }
 
   serial_device {}
+
+  lifecycle {
+    ignore_changes = [disk]
+  }
 }
